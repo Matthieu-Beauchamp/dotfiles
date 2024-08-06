@@ -31,6 +31,8 @@ function config_files() {
         .config/starship.toml
         .config/synth-shell
 
+        .config/arch-gnome-setup
+
         "$CONFIG_TRACKER_HOME/config-tracker.sh"
     )
 
@@ -94,6 +96,7 @@ case $1 in
         echo "Usage: config-tracker [cmd] [options...]"
         echo "cmd can be:"
         echo "  init <dir>      Initialize the config tracker repository in dir"
+        echo "  edit            Edit this script with the git configured editor"
         echo "  update <msg>    Commit changes to tracked files with commit message msg"
         echo "  restore         Pull configuration"
         echo "  <git command>   Use any git command and its options"
@@ -106,6 +109,7 @@ case $1 in
             init ~/.config/config-tracker
         fi
         ;;
+    edit) $(git config core.editor) "${BASH_SOURCE[0]}";;
     update) update "$2";;
     restore) restore;;
     *) custom "$@";;
