@@ -17,10 +17,10 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -52,8 +52,20 @@ vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
 vim.keymap.set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Close window' })
 
--- TODO: Buffer close, prev / next (using bufferline..?)
+-- Buffer: close (all), prev, next
+vim.keymap.set('n', '<leader>b', '', { desc = '[B]uffer' })
+vim.keymap.set('n', '<leader>bc', '<cmd> bd<CR>', { desc = '[B]uffer [c]lose' })
+-- close all and open last. This leaves an unnamed buffer, go to it and close it
+vim.keymap.set('n', '<leader>bC', '<cmd> %bd|e#|bnext|bd<CR>', { desc = '[B]uffer [C]lose all except current' })
+vim.keymap.set('n', '<leader>bp', '<cmd> bprev<CR>', { desc = '[B]uffer [N]ext' })
+vim.keymap.set('n', '<leader>bn', '<cmd> bnext<CR>', { desc = '[B]uffer [P]revious' })
 
--- TODO: Nvim tree shortcuts
+-- Splits
+vim.keymap.set('n', '<leader>v', '<cmd> vsplit<CR>', { desc = '[V]ertical split' })
+vim.keymap.set('n', '<leader>h', '<cmd> split<CR>', { desc = '[H]orizontal split' })
+
+-- Nvim tree
+vim.keymap.set('n', '<leader>e', '<cmd> NvimTreeToggle<CR>', { desc = '[E]xplorer toggle' })
+vim.keymap.set('n', '<leader>ef', '<cmd> NvimTreeFindFileToggle<CR>', { desc = '[E]xplorer [f]ind file toggle' })
 
 -- vim: ts=2 sts=2 sw=2 et

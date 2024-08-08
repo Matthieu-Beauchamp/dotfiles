@@ -9,7 +9,9 @@ return {
     bufferline.setup {
       options = {
         separator_style = 'slope',
-        numbers = 'buffer_id',
+        numbers = function(opts)
+          return string.format('[%s]', opts.ordinal)
+        end,
         mode = 'buffers', -- set to "tabs" to only show tabpages instead
       },
     }
