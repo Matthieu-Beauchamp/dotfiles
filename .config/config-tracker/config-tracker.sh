@@ -95,9 +95,9 @@ case $1 in
     -h | --help) 
         echo "Usage: config-tracker [cmd] [options...]"
         echo "cmd can be:"
-        echo "  init <dir>      Initialize the config tracker repository in dir"
-        echo "  edit            Edit this script with the git configured editor"
-        echo "  update <msg>    Commit changes to tracked files with commit message msg"
+        echo "  init [dir]      Initialize the config tracker repository in dir or .config/config-tracker"
+        echo "  edit [editor]   Edit this script with the provided editor or the git configured editor"
+        echo "  update [msg]    Commit and push changes to tracked files with commit message msg if provided"
         echo "  restore         Pull configuration"
         echo "  <git command>   Use any git command and its options"
         ;;
@@ -109,7 +109,14 @@ case $1 in
             init ~/.config/config-tracker
         fi
         ;;
-    edit) $(git config core.editor) "${BASH_SOURCE[0]}";;
+    edit) 
+        shift
+        if [ $# == 1 ]; then
+            "$1" "${BASH_SOURCE[0]}"
+        else
+            $(git config core.editor) "${BASH_SOURCE[0]}"
+        fi
+        ;;
     update) update "$2";;
     restore) restore;;
     *) custom "$@";;

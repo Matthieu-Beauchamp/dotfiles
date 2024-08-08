@@ -6,7 +6,7 @@
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -51,5 +51,9 @@ vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 -- quick write and quick exit
 vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
 vim.keymap.set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Close window' })
+
+-- TODO: Buffer close, prev / next (using bufferline..?)
+
+-- TODO: Nvim tree shortcuts
 
 -- vim: ts=2 sts=2 sw=2 et
