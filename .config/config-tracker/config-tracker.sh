@@ -12,26 +12,26 @@ function invoke_git() {
 function config_files() {
     # Rooted at $HOME/
     configFiles=(
-        .bashrc
-        .bash_profile
-        bin/.bashrc_extra.sh
+        ~/.bashrc
+        ~/.bash_profile
+        ~/bin/.bashrc_extra.sh
 
-        .clang-format
+        ~/.clang-format
 
-        .vimrc
-        .config/vim-configs
-        .config/nvim
-        .config/lvim
+        ~/.vimrc
+        ~/.config/vim-configs
+        ~/.config/nvim
+        ~/.config/lvim
 
-        .config/kitty
-        .config/terminator
-        .config/qterminal.org
-        .config/powerline
+        ~/.config/kitty
+        ~/.config/terminator
+        ~/.config/qterminal.org
+        ~/.config/powerline
 
-        .config/starship.toml
-        .config/synth-shell
+        ~/.config/starship.toml
+        ~/.config/synth-shell
 
-        .config/arch-gnome-setup
+        ~/.config/arch-gnome-setup
 
         "$CONFIG_TRACKER_HOME/config-tracker.sh"
     )

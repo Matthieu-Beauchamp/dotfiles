@@ -7,6 +7,8 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
+        cmake = { 'cmakelint' },
+        python = { 'pylint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,

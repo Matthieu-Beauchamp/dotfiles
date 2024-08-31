@@ -31,6 +31,11 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.keymap.set('n', '<C-Right>', '<C-w>>', { desc = 'Increase window width' })
+vim.keymap.set('n', '<C-Left>', '<C-w><', { desc = 'Decrease window width' })
+vim.keymap.set('n', '<C-Down>', '<C-w>+', { desc = 'Increase window width' })
+vim.keymap.set('n', '<C-Up>', '<C-w>-', { desc = 'Decrease window width' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -55,8 +60,18 @@ vim.keymap.set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Close window' })
 -- Buffer: close (all), prev, next
 vim.keymap.set('n', '<leader>b', '', { desc = '[B]uffer' })
 vim.keymap.set('n', '<leader>bc', '<cmd> bd<CR>', { desc = '[B]uffer [c]lose' })
--- close all and open last. This leaves an unnamed buffer, go to it and close it
-vim.keymap.set('n', '<leader>bC', '<cmd> %bd|e#|bnext|bd<CR>', { desc = '[B]uffer [C]lose all except current' })
+
+--TODO: keymap that takes buffer number as prefix
+
+-- vim.keymap.set('n', '<leader>bC', '<cmd> %bd|e#|bnext|bd<CR>', { desc = '[B]uffer [C]lose all except current' })
+vim.keymap.set('n', '<leader>bC', function()
+  for _, buf in ipairs(vim.fn.getbufinfo { buflisted = 1 }) do
+    if buf.bufnr ~= vim.api.nvim_get_current_buf() then
+      vim.api.nvim_buf_delete(buf.bufnr, {})
+    end
+  end
+end, { desc = '[B]uffer [C]lose all except current' })
+
 vim.keymap.set('n', '<leader>bp', '<cmd> bprev<CR>', { desc = '[B]uffer [N]ext' })
 vim.keymap.set('n', '<leader>bn', '<cmd> bnext<CR>', { desc = '[B]uffer [P]revious' })
 
