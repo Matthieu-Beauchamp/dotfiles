@@ -88,6 +88,7 @@ function pac() {
 # aur <cmd> <arg>
 #
 # cmd:
+#   list: list installed aur packages
 #   get: install the AUR package with git url $arg
 #
 #   update/update-checked: if $arg is "all" then update all AUR packages,
@@ -109,6 +110,7 @@ function aur() {
     cd $aurDir
 
     case $cmd in
+    list) ls $aurDir;;
     get)
         git clone $arg
 

@@ -24,7 +24,7 @@ function pgadmin() {
 function poly() {
 
 	polyBasePath=~/Documents
-	polySession=H24
+	polySession=A24
 
 	polyCours=$polyBasePath/Poly/$polySession
 	polyProjets=$polyBasePath/PolyProjets/$polySession
@@ -39,7 +39,8 @@ function poly() {
 	arg=$2
 
 	case $cmd in
-        todo) gio open obsidian://open?vault=PolyH24 ;;
+		todo) # gio open obsidian://open?vault=PolyH24 ;;
+			gio open $polyCours/TODO.ods;;
 
 		c) cd $polyCours/$arg;;
 		p) cd $polyProjets/$arg;;

@@ -171,6 +171,7 @@ return {
         cpptools = {},
         clangd = {},
         jedi_language_server = {},
+        texlab = {},
 
         -- gopls = {},
         -- pyright = {},

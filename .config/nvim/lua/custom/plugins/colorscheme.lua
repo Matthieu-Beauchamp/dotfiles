@@ -12,8 +12,8 @@ local dracula = {
   name = 'dracula',
   priority = 1000,
   init = function()
-    vim.cmd.colorscheme 'dracula'
+    -- vim.cmd.colorscheme 'dracula'
   end,
 }
 
-return catpuccin
+return { catpuccin, dracula }
