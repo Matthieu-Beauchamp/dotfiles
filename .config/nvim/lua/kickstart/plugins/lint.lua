@@ -5,10 +5,15 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
+
       lint.linters_by_ft = {
         cmake = { 'cmakelint' },
         python = { 'pylint' },
       }
+
+      -- Set pylint to work in virtualenv
+      lint.linters.pylint.cmd = 'python'
+      lint.linters.pylint.args = { '-m', 'pylint', '-f', 'json' }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
