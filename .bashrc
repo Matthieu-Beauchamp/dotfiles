@@ -37,7 +37,7 @@ function addToPath() {
 
 addToPath "~/bin"
 addToPath "~/.local/bin"
-addToPath "~/.local/share/Jetbrains/Toolbox.scripts"
+addToPath "~/.local/share/Jetbrains/Toolbox/scripts"
 addToPath "~/.local/share/JetBrains/Toolbox/bin"
 
 # Synth-shell #########################################
