@@ -20,6 +20,7 @@ $java\
 $julia\
 $nodejs\
 $nim\
+$python\
 $rust\
 $scala\
 [](fg:cyan bg:blue)\
@@ -167,6 +168,11 @@ format = '[ $symbol ]($style)'
 symbol = "󰆥 "
 style = "bg:cyan"
 format = '[ $symbol ]($style)'
+
+[python]
+symbol = " "
+style = "bg:cyan fg:black"
+format = '[ ${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
 [rust]
 symbol = ""
