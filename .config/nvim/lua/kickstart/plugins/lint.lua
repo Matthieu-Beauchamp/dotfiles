@@ -9,6 +9,7 @@ return {
       lint.linters_by_ft = {
         cmake = { 'cmakelint' },
         python = { 'pylint' },
+        sh = { 'shellcheck' },
       }
 
       -- Set pylint to work in virtualenv

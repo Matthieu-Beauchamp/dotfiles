@@ -172,6 +172,7 @@ return {
         clangd = {},
         jedi_language_server = {},
         texlab = {},
+        bashls = {},
 
         -- gopls = {},
         -- pyright = {},

@@ -1,119 +1,127 @@
 #! /bin/env bash
 
-# https://www.atlassian.com/git/tutorials/dotfiles
-
-# Note that to use X11 instead of Wayland (ie to be able to screenshare),
-# we must set `WaylandEnable=false` in /etc/gdm/custom.conf
+CONFIG_TRACKER_HOME=~/.config/config-tracker
 
 function invoke_git() {
     /usr/bin/git --git-dir=$CONFIG_TRACKER_HOME/repo --work-tree=$HOME "$@"
 }
 
-function config_files() {
-    # Rooted at $HOME/
-    configFiles=(
-        ~/.bashrc
-        ~/.bash_profile
-        
-        ~/.clang-format
-
-        ~/.vimrc
-        ~/.config/vim-configs
-        ~/.config/nvim
-        ~/.config/lvim
-
-        ~/.config/kitty
-
-        ~/.config/starship.toml
-
-        ~/.config/arch-gnome-setup
-
-        "$CONFIG_TRACKER_HOME/config-tracker.sh"
-    )
-
-    for f in "${configFiles[@]}"; do
-        echo "$f"
-    done
-}
-
-function init() {
-    if [ -n "$CONFIG_TRACKER_HOME" ]; then
-        echo "config-tracker seems to be already configured with repo in $CONFIG_TRACKER_HOME. Cancelling"
-        echo "Clean the following lines from your ~/.bashrc and restart your shell"
-        grep config-tracker.sh --line-number < "$HOME/.bashrc" 
-        grep CONFIG_TRACKER_HOME --line-number < "$HOME/.bashrc" 
-        exit 1
-    fi
-
-    {
-    echo "" 
-    echo "# config-tracker ##################################"
-    echo "export CONFIG_TRACKER_HOME=$1"
-    echo "alias config-tracker='$1/config-tracker.sh'"
-    } >> "$HOME/.bashrc"
-
-    mkdir -p "$1"
-    git init --bare "$1/repo"
-    mv "${BASH_SOURCE[0]}" "$1/"
-
-    CONFIG_TRACKER_HOME=$1
-    invoke_git config --local status.showUntrackedFiles no
-
-    echo "Initialized config tracker to use repository in $1/repo"
-    echo "Initialized config tracker script in $1/config-tracker.sh"
-    echo "Restart your shell"
-}
-
-function update() {
-    for f in $(config_files); do
-        invoke_git add "$f"
-    done
-
-    if [ -n "$1" ]; then
-        invoke_git commit -m "$1"
-    else 
-        invoke_git commit
-    fi
-
-    invoke_git push
-}
-
-function restore() {
-    invoke_git pull
-}
-
-function custom(){
+function custom() {
     invoke_git "$@"
 }
 
-case $1 in
-    -h | --help) 
-        echo "Usage: config-tracker [cmd] [options...]"
-        echo "cmd can be:"
-        echo "  init [dir]      Initialize the config tracker repository in dir or .config/config-tracker"
-        echo "  edit [editor]   Edit this script with the provided editor or the git configured editor"
-        echo "  update [msg]    Commit and push changes to tracked files with commit message msg if provided"
-        echo "  restore         Pull configuration"
-        echo "  <git command>   Use any git command and its options"
-        ;;
-    init) 
-        shift
-        if [ $# == 1 ]; then
-            init "$1"
-        else
-            init ~/.config/config-tracker
-        fi
-        ;;
-    edit) 
-        shift
-        if [ $# == 1 ]; then
-            "$1" "${BASH_SOURCE[0]}"
-        else
-            $(git config core.editor) "${BASH_SOURCE[0]}"
-        fi
-        ;;
-    update) update "$2";;
-    restore) restore;;
-    *) custom "$@";;
-esac
+# packages #########################
+
+function banner-exec() {
+    echo
+    echo "############################################################"
+    echo "## $1"
+    echo "############################################################"
+    echo
+    $1
+}
+
+function save-all() {
+    banner-exec save-pacman
+    banner-exec save-yay
+    banner-exec save-npm
+    banner-exec save-pipx
+}
+
+function install-all() {
+    banner-exec install-pacman
+    banner-exec install-yay
+    banner-exec install-npm
+    banner-exec install-pipx
+}
+
+function save-pacman() {
+    pacman -Q --quiet --explicit --native > $CONFIG_TRACKER_HOME/pacman.pkglist
+}
+function install-pacman() {
+    sudo pacman -S - < $CONFIG_TRACKER_HOME/pacman.pkglist
+}
+
+function save-yay() {
+    pacman -Q --quiet --explicit --foreign > $CONFIG_TRACKER_HOME/yay.pkglist
+}
+function install-yay() {
+    yay -S - < $CONFIG_TRACKER_HOME/yay.pkglist
+}
+
+function save-npm() {
+    # Do not use for installing, some are handled by pacman
+    npm list -g --depth=0 --json | jq '.dependencies | keys | .[]' > $CONFIG_TRACKER_HOME/npm.pkglist
+}
+function install-npm() {
+    xargs sudo npm -g install < $CONFIG_TRACKER_HOME/npm.pkglist
+}
+
+function save-pipx() {
+    pipx list --short | sed 's/\([^ ]*\).*/\1/' > $CONFIG_TRACKER_HOME/pipx.pkglist
+}
+function install-pipx() {
+    xargs pipx install < $CONFIG_TRACKER_HOME/pipx.pkglist
+}
+
+
+function main() {
+    if [ $# == 0 ]; then
+        main --help
+        exit
+    fi
+
+    case $1 in
+        -h | --help)
+            echo "Usage: config-tracker [cmd] [options...]"
+            echo "cmd can be:"
+            echo "  edit [editor]       Edit this script with the provided editor or the git configured editor"
+            echo "  <git command>       Use any git command and its options"
+            echo "  install [pkg-type]  Install packages from package lists"
+            echo "                        pkg-type: all | pacman | yay | pipx | npm"
+            echo "  save [pkg-type]     Save package lists"
+            echo "                        pkg-type: all | pacman | yay | pipx | npm"
+            exit
+            ;;
+        edit)
+            shift
+            if [ $# == 1 ]; then
+                "$1" "${BASH_SOURCE[0]}"
+            else
+                $(git config core.editor) "${BASH_SOURCE[0]}"
+            fi
+            ;;
+        save)
+            shift
+            if [ $# == 0 ]; then
+                main save all
+            fi
+
+            case $1 in
+                all) save-all ;;
+                pacman) save-pacman ;;
+                yay) save-yay ;;
+                npm) save-npm ;;
+                pipx) save-pipx ;;
+            esac
+            ;;
+        install)
+            shift
+            if [ $# == 0 ]; then
+                main install all
+            fi
+
+            case $1 in
+                all) install-all ;;
+                pacman) install-pacman ;;
+                yay) install-yay ;;
+                npm) install-npm ;;
+                pipx) install-pipx ;;
+            esac
+            ;;
+        *) custom "$@" ;;
+    esac
+}
+
+main "$@"
 

@@ -29,6 +29,7 @@ return {
         lua = { 'stylua' },
         python = { 'autopep8' },
         cpp = { 'clang-format' },
+        sh = { 'beautysh' },
 
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },

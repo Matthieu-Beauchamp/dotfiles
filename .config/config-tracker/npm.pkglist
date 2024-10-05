@@ -1,0 +1,5 @@
+"@angular/cli"
+"node-gyp"
+"nopt"
+"npm"
+"semver"
