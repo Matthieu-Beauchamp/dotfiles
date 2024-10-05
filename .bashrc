@@ -35,7 +35,6 @@ function addToPath() {
     [[ ":$PATH:" != *":$1:"* ]] && PATH="${PATH}:$1"
 }
 
-addToPath "~/bin"
 addToPath "~/.local/bin"
 addToPath "~/.local/share/Jetbrains/Toolbox/scripts"
 addToPath "~/.local/share/JetBrains/Toolbox/bin"
@@ -71,131 +70,38 @@ function option() {
     done
 }
 
+# Poly #############################################
 
-# Pacman and AUR wrapper #####################
+function poly() {
 
-function pac() {
-    cmd=$1
-    args=${@:2}
+	polyBasePath=~/Documents
+	polySession=A24
 
-    case $cmd in
-    get) sudo pacman -S $args ;;
-    update) sudo pacman -Syu ;;
-    remove) sudo pacman -Rns $args ;;
-    esac
+	polyCours=$polyBasePath/Poly/$polySession
+	polyProjets=$polyBasePath/PolyProjets/$polySession
+
+	nArgs=$#
+
+	if [[ $nArgs -ne 1 && $nArgs -ne 2 ]]; then
+		echo "incorrect number of arguments" && return -1
+	fi
+
+	cmd=$1
+	arg=$2
+
+	case $cmd in
+		todo) # gio open obsidian://open?vault=PolyH24 ;;
+			gio open $polyCours/TODO.ods;;
+
+		c) cd $polyCours/$arg;;
+		p) cd $polyProjets/$arg;;
+	esac
 }
-
-# aur <cmd> <arg>
-#
-# cmd:
-#   list: list installed aur packages
-#   get: install the AUR package with git url $arg
-#
-#   update/update-checked: if $arg is "all" then update all AUR packages,
-#                          else update AUR package with name $arg if it exists.
-#                          The checked variant allows checking git diffs and canceling update.
-#
-#   remove: remove the AUR package with name $arg
-#
-function aur() {
-    aurDir=~/.aur-packages
-    if [[ ! -d $aurDir ]]; then
-        mkdir $aurDir
-    fi
-
-    cmd=$1
-    arg=$2
-
-    local curDir=$(pwd -P)
-    cd $aurDir
-
-    case $cmd in
-    list) ls $aurDir;;
-    get)
-        git clone $arg
-
-        pkgName=${arg##*/}
-        pkgName=${pkgName%.git}
-        cd $pkgName
-
-        if option "Inspect PKGBUILD?"; then
-            less PKGBUILD
-
-            if ! option "Continue building?"; then
-                cd $curDir
-                return 0
-            fi
-        fi
-
-        makepkg --syncdeps --install --clean --rmdeps
-        git clean -dfx
-        ;;
-    update-checked)
-        if [[ "$arg" == "all" ]]; then
-            for d in ./*; do
-                if [[ -d $d ]]; then
-                    echo "Updating ${d#*/}"
-                    aur update-checked "$d"
-                fi
-            done
-        else
-            cd $arg
-            oldCommit=$(git rev-parse --verify HEAD)
-            git pull
-            newCommit=$(git rev-parse --verify HEAD)
-
-            if [[ $oldCommit != $newCommit ]]; then
-                if option "Inspect diff?"; then
-                    git diff $oldCommit
-
-                    if ! option "Continue building?"; then
-                        cd $curDir
-                        return 0
-                    fi
-                fi
-
-                makepkg --syncdeps --install --clean --rmdeps
-                git clean -dfx
-            fi
-        fi
-        ;;
-    update)
-        if [[ "$arg" == "all" ]]; then
-            for d in ./*; do
-                if [[ -d $d ]]; then
-                    echo "Updating ${d#*/}"
-                    aur update "$d"
-                fi
-            done
-        else
-            cd $arg
-            oldCommit=$(git rev-parse --verify HEAD)
-            git pull
-            newCommit=$(git rev-parse --verify HEAD)
-
-            if [[ $oldCommit != $newCommit ]]; then
-                makepkg --syncdeps --install --clean --rmdeps
-                git clean -dfx
-            fi
-        fi
-        ;;
-    remove)
-        if option "Force remove everything under $aurDir/$arg ?"; then
-            rm -rf $arg
-        fi
-
-        pac remove $arg
-        ;;
-    esac
-
-    cd $curDir
-}
-
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
 
-
 # config-tracker ##################################
 export CONFIG_TRACKER_HOME=/home/matthieu/.config/config-tracker
 alias config-tracker='/home/matthieu/.config/config-tracker/config-tracker.sh'
+
