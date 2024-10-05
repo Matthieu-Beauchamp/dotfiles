@@ -85,4 +85,3 @@ source <(ng completion script)
 
 # config-tracker ##################################
 alias config-tracker='~/.config/config-tracker/config-tracker.sh'
-
