@@ -1,4 +1,4 @@
-#! /bin/env bash
+#!/usr/bin/env bash
 
 CONFIG_TRACKER_HOME=~/.config/config-tracker
 
@@ -10,60 +10,7 @@ function custom() {
     invoke_git "$@"
 }
 
-# packages #########################
-
-function banner-exec() {
-    echo
-    echo "############################################################"
-    echo "## $1"
-    echo "############################################################"
-    echo
-    $1
-}
-
-function save-all() {
-    banner-exec save-pacman
-    banner-exec save-yay
-    banner-exec save-npm
-    banner-exec save-pipx
-}
-
-function install-all() {
-    banner-exec install-pacman
-    banner-exec install-yay
-    banner-exec install-npm
-    banner-exec install-pipx
-}
-
-function save-pacman() {
-    pacman -Q --quiet --explicit --native > $CONFIG_TRACKER_HOME/pacman.pkglist
-}
-function install-pacman() {
-    sudo pacman -S - < $CONFIG_TRACKER_HOME/pacman.pkglist
-}
-
-function save-yay() {
-    pacman -Q --quiet --explicit --foreign > $CONFIG_TRACKER_HOME/yay.pkglist
-}
-function install-yay() {
-    yay -S - < $CONFIG_TRACKER_HOME/yay.pkglist
-}
-
-function save-npm() {
-    # Do not use for installing, some are handled by pacman
-    npm list -g --depth=0 --json | jq '.dependencies | keys | .[]' > $CONFIG_TRACKER_HOME/npm.pkglist
-}
-function install-npm() {
-    xargs sudo npm -g install < $CONFIG_TRACKER_HOME/npm.pkglist
-}
-
-function save-pipx() {
-    pipx list --short | sed 's/\([^ ]*\).*/\1/' > $CONFIG_TRACKER_HOME/pipx.pkglist
-}
-function install-pipx() {
-    xargs pipx install < $CONFIG_TRACKER_HOME/pipx.pkglist
-}
-
+source $CONFIG_TRACKER_HOME/packages.sh
 
 function main() {
     if [ $# == 0 ]; then
@@ -76,11 +23,13 @@ function main() {
             echo "Usage: config-tracker [cmd] [options...]"
             echo "cmd can be:"
             echo "  edit [editor]       Edit this script with the provided editor or the git configured editor"
+            echo "  where               Prints the location of the config tracker directory"
             echo "  <git command>       Use any git command and its options"
             echo "  install [pkg-type]  Install packages from package lists"
             echo "                        pkg-type: all | pacman | yay | pipx | npm"
             echo "  save [pkg-type]     Save package lists"
             echo "                        pkg-type: all | pacman | yay | pipx | npm"
+            echo "  setup               Interactive system configuration"
             exit
             ;;
         edit)
@@ -91,6 +40,7 @@ function main() {
                 $(git config core.editor) "${BASH_SOURCE[0]}"
             fi
             ;;
+        where) echo "$CONFIG_TRACKER_HOME" ;;
         save)
             shift
             if [ $# == 0 ]; then
@@ -119,6 +69,7 @@ function main() {
                 pipx) install-pipx ;;
             esac
             ;;
+        setup) $CONFIG_TRACKER_HOME/setup.sh ;;
         *) custom "$@" ;;
     esac
 }
