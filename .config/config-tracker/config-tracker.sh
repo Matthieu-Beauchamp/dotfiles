@@ -14,8 +14,7 @@ function config_files() {
     configFiles=(
         ~/.bashrc
         ~/.bash_profile
-        ~/bin/.bashrc_extra.sh
-
+        
         ~/.clang-format
 
         ~/.vimrc
@@ -24,12 +23,8 @@ function config_files() {
         ~/.config/lvim
 
         ~/.config/kitty
-        ~/.config/terminator
-        ~/.config/qterminal.org
-        ~/.config/powerline
 
         ~/.config/starship.toml
-        ~/.config/synth-shell
 
         ~/.config/arch-gnome-setup
 
