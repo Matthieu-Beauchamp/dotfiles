@@ -54,6 +54,7 @@ gnome-tweaks
 gnome-user-docs
 gnome-user-share
 gnome-weather
+gnu-free-fonts
 gparted
 grilo-plugins
 grub
@@ -76,6 +77,7 @@ jq
 kitty
 lazygit
 lcov
+less
 libreoffice-still
 linux
 linux-firmware
@@ -85,9 +87,11 @@ malcontent
 nano
 nano-syntax-highlighting
 nautilus
+neofetch
 neovim
 networkmanager
 nodejs-lts-hydrogen
+noto-fonts
 npm
 obs-studio
 orca
@@ -135,6 +139,8 @@ totem
 tree
 ttf-firacode-nerd
 ttf-jetbrains-mono-nerd
+ttf-libertinus
+ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-mono
 valgrind
 which
