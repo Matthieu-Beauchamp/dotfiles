@@ -1,6 +1,3 @@
-# THIS FILE MAY BE OVERWRITTEN BY THE ArchGnomeSetup INSTALL SCRIPT
-# MODIFY ~/bin/.bashrc_extra.sh INSTEAD
-#
 # Arch-Linux default #########################
 # ~/.bashrc
 #
