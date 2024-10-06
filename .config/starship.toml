@@ -1,196 +1,67 @@
+# [black](black)
+# [red](red)
+# [green](green)
+# [blue](blue)
+# [yellow]( yellow)
+# [purple]( purple)
+# [cyan]( cyan)
+# [white]( white)
+#
+# [black](bold black)
+# [red](bold red)
+# [green](bold green)
+# [blue](bold blue)
+# [yellow](bold yellow)
+# [purple](bold purple)
+# [cyan](bold cyan)
+# [white](bold white)
+
 format = """
-[](purple)\
-$os\
-$username\
-$sudo\
-[](bg:red fg:purple)\
-$directory\
-[](fg:red bg:yellow)\
-$git_branch\
-$git_status\
-$git_metrics\
-[](fg:yellow bg:cyan)\
-$c\
-$elixir\
-$elm\
-$golang\
-$gradle\
-$haskell\
-$java\
-$julia\
-$nodejs\
-$nim\
-$python\
-$rust\
-$scala\
-[](fg:cyan bg:blue)\
-$time\
-[ ](fg:blue)\
-$character\
+╭╴$username$sudo$hostname$directory$git_branch$git_metrics$git_status$git_state $fill $all
+╰╴$character
 """
-# $docker_context\
-# [](fg:green bg:blue)\
+# ─
 
-# Disable the blank line at the start of the prompt
-# add_newline = false
-
-continuation_prompt = '[▶▶ ](fg:purple)'
-
-palette = "dracula"
-
-# Colors are used in this order in the prompt. 
-# Names may not reflect actual color
-[palettes.pastel]
-purple = "#9A348E"
-red =    "#DA627D"
-yellow = "#FCA17D"
-cyan =   "#86BBD8"
-green =  "#06969A"
-blue =   "#33658A"
-
-# https://draculatheme.com/contribute
-[palettes.dracula]
-purple = "#BD93F9"
-red =    "#FF79C6" 
-yellow = "#44475A"
-cyan =   "#8BE9FD"
-green =  "#50FA7B"
-blue =   "#6272A4"
-black =  "#282A36"
-
-# You can also replace your username with a neat symbol like   or disable this
-# and use the os module below
 [username]
 show_always = true
-style_user = "bg:purple"
-style_root = "bg:purple"
-format = '[$user ]($style)'
-disabled = true
-
-# An alternative to the username module which displays a symbol that
-# represents the current operating system
-[os]
-style = "bg:purple fg:black"
-disabled = false # Disabled by default
+format = '[$user]($style)'
 
 [sudo]
+symbol = '⚡'
+format = ' [$symbol]($style)'
 disabled = false
-format = '[$symbol]($style)'
-style = 'bg:purple'
 
-[os.symbols]
-Arch = "󰣇 "
+[hostname]
+format = ' [$ssh_symbol$hostname](style)'
 
 [directory]
-style = "bg:red fg:black"
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = "…/"
+format = ' in [$path]($style)'
+truncation_symbol = '.../'
 
-# Here is how you can shorten some long paths by text replacement
-# similar to mapped_locations in Oh My Posh:
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-# Keep in mind that the order matters. For example:
-# "Important Documents" = " 󰈙 "
-# will not be replaced, because "Documents" was already substituted before.
-# So either put "Important Documents" before "Documents" or use the substituted version:
-# "Important 󰈙 " = " 󰈙 "
 
-[c]
-symbol = " "
-style = "bg:cyan fg:black"
-detect_extensions = ['c', 'h', 'cpp', 'hpp']
-format = '[ $symbol ]($style)'
+[line_break]
+disabled = true
 
-[docker_context]
-symbol = " "
-style = "bg:green fg:black"
-format = '[ $symbol $context ]($style) $path'
-
-[elixir]
-symbol = " "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[elm]
-symbol = " "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
+[fill]
+symbol = ' '
+style = 'none'
 
 [git_branch]
-#symbol = ""
-style = "bg:yellow"
-format = '[ $symbol$branch ]($style)'
+format = ' on [$symbol$branch(:$remote_branch)]($style)'
+[git_status]
+format = '( [\[$all_status$ahead_behind\]]($style))'
+
+[git_state]
+format = ' \([$state( $progress_current/$progress_total)]($style)\)'
 
 [git_metrics]
-deleted_style = "bold fg:red bg:yellow"
-added_style = "bold fg:green bg:yellow"
 disabled = false
-format = '([+$added ]($added_style))([-$deleted ]($deleted_style))'
-[git_status]
-style = "bg:yellow"
-format = '[$all_status$ahead_behind ]($style)'
-
-[golang]
-symbol = " "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[gradle]
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[haskell]
-symbol = " "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[java]
-symbol = " "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[julia]
-symbol = " "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[nodejs]
-symbol = ""
-style = "bg:cyan fg:black"
-format = '[ $symbol ]($style)'
-
-[nim]
-symbol = "󰆥 "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
+format = '( [+$added]($added_style))( [-$deleted]($deleted_style))'
 
 [python]
-symbol = " "
-style = "bg:cyan fg:black"
-format = '[ ${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-
-[rust]
-symbol = ""
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[scala]
-symbol = " "
-style = "bg:cyan"
-format = '[ $symbol ]($style)'
-
-[time]
-disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:blue fg:black"
-format = '[  $time ]($style)'
+symbol = ' '
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
 [character]
-success_symbol = '[✓](fg:green)'
-error_symbol = '[✗](fg:red)'
-
+success_symbol = '[](bold green)'
+error_symbol = '[](bold red)'
