@@ -1,6 +1,7 @@
 alsa-firmware
 alsa-utils
 amd-ucode
+autopep8
 baobab
 base
 base-devel
@@ -71,6 +72,7 @@ gvfs-onedrive
 gvfs-smb
 gvfs-wsdd
 gvim
+inetutils
 jdk-openjdk
 jq
 kitty
@@ -81,6 +83,7 @@ libreoffice-still
 linux
 linux-firmware
 loupe
+luarocks
 make
 malcontent
 nano
@@ -122,6 +125,7 @@ texlive-fontutils
 texlive-formatsextra
 texlive-games
 texlive-humanities
+texlive-langfrench
 texlive-latex
 texlive-latexextra
 texlive-latexrecommended
@@ -137,6 +141,7 @@ texlive-xetex
 tldr
 totem
 tree
+tree-sitter-cli
 ttf-firacode-nerd
 ttf-jetbrains-mono-nerd
 ttf-libertinus

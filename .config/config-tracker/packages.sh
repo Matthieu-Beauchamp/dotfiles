@@ -38,11 +38,13 @@ function install-yay() {
 }
 
 function save-npm() {
+    echo "[config-tracker/npm] Not doing anything to prevent stepping on pacman's toes"
     # Do not use for installing, some are handled by pacman
-    npm list -g --depth=0 --json | jq '.dependencies | keys | .[]' > $CONFIG_TRACKER_HOME/npm.pkglist
+    # npm list -g --depth=0 --json | jq '.dependencies | keys | .[]' > $CONFIG_TRACKER_HOME/npm.pkglist
 }
 function install-npm() {
-    xargs sudo npm -g install < $CONFIG_TRACKER_HOME/npm.pkglist
+    echo "[config-tracker/npm] Not doing anything to prevent stepping on pacman's toes"
+    # xargs sudo npm -g install < $CONFIG_TRACKER_HOME/npm.pkglist
 }
 
 function save-pipx() {
