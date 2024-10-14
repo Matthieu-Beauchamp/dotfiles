@@ -82,6 +82,7 @@ less
 libreoffice-still
 linux
 linux-firmware
+linux-headers
 loupe
 luarocks
 make
@@ -97,6 +98,7 @@ noto-fonts
 npm
 obs-studio
 orca
+p7zip
 perf
 perl-file-homedir
 perl-yaml-tiny
