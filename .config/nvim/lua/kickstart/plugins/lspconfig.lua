@@ -173,6 +173,8 @@ return {
         jedi_language_server = {},
         texlab = {},
         bashls = {},
+        vhdl_ls = {},
+        ts_ls = {},
 
         -- gopls = {},
         -- pyright = {},
