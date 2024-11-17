@@ -3,6 +3,7 @@ set nocompatible
 
 " Yank to system clipboard
 " For VSCodeVim, ensure "Use system clipboard" is checked.
+" set clipboard=unnamedplus
 if has('unix')
     set clipboard=unnamedplus
 else
