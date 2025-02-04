@@ -53,7 +53,7 @@ eval "$(starship init bash)"
 
 function poly() {
     polyBasePath=~/Documents
-    polySession=A24
+    polySession=H25
 
     polyCours=$polyBasePath/Poly/$polySession
     polyProjets=$polyBasePath/PolyProjets/$polySession
