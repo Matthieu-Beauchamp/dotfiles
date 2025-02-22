@@ -175,6 +175,7 @@ return {
         bashls = {},
         vhdl_ls = {},
         ts_ls = {},
+        cssls = {},
         angularls = {
           filetypes = { 'typescript', 'html', 'typescriptreact', 'typescript.tsx', 'htmlangular' },
         },

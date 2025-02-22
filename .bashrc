@@ -80,5 +80,9 @@ function poly() {
 
 source <(ng completion script)
 
+# CHROME_BIN required for jasmine tests with chrome
+
+export CHROME_BIN=chromium
+
 # config-tracker ##################################
 alias config-tracker='~/.config/config-tracker/config-tracker.sh'
