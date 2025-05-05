@@ -1,1 +1,6 @@
-set clipboard+=unnamedplus
+set visualbell
+set noerrorbells
+
+
+" set clipboard+=unnamedplus
+set clipboard+=unnamed
